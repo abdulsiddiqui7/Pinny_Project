@@ -34,10 +34,10 @@ export default class App extends React.Component {
 }
 
 const AppSwitchNavigator = createSwitchNavigator({
-  OuterLogin:OuterLogin,
+  //OuterLogin:OuterLogin,
   //SearchPage:SearchPage,
   //UserSignup:UserSignup,
-  //CreateGame:CreateGame,
+  CreateGame:CreateGame,
 })
 
 const AppNavigator = createAppContainer
