@@ -1,147 +1,165 @@
-import React from 'react';
-import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Image, StatusBar, FlatList } from 'react-native';
+//import React from 'react';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Picker} from 'react-native';
 //import DropDownPicker from 'react-native-dropdown-picker';
+import NumericInput from 'react-native-numeric-input'
 import { Header } from 'react-native-elements';
-import { Dropdown } from 'sharingan-rn-modal-dropdown';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 
-export const data = [
-  {
-    value: '1',
-    label: 'Soccer',
-  },
-  {
-    value: '2',
-    label: 'Basketball',
-  },
-  {
-    label: 'Hockey',
-    value: '3',
-  },
-  {
-    label: 'Baseball',
-    value: '4',
-  },
-  {
-    label: 'Volleyball',
-    value: '5',
-  },
-  {
-    label: 'Cricket',
-    value: '6',
-  },
-  {
-    label: 'Football',
-    value: '7'
-  },
-];
+
+export function addGame(gameInfo){
+  firebase.firestore()
+  .collection("PickupGames")
+  .add({
+    //BookingCost: gameInfo.BookingCost,
+    Location: gameInfo.Location,
+    NumPlayers: gameInfo.NumPlayers,
+    SkillLevel: gameInfo.SkillLevel,
+    Sport: gameInfo.Sport,
+    Address: gameInfo.Address
+  }).then((data) => console.log("Success!"))
+  .catch((error) => console.log("Error: " + error.message));
+}
 
 export default function CreateGame (props) {
 
-    return (
+  const [gameInfo, setGameInfo] = useState({
+    //BookingCost: "",
+    Location: "",
+    NumPlayers: "",
+    SkillLevel: "",
+    Sport: "",
+    Address: "",
+  })
+  const [selectedSport, setSelectedSport] = useState("");
+
+  function createGameHandle(){
+    addGame(gameInfo)
+  }
+  return (
+    <View style={styles.container}>
+      <Header
+        leftComponent={{ icon: 'menu', color: '#fff' }}
+        centerComponent={{ text: 'Create Game', style: { color: '#fff' } }}
+        rightComponent={{ icon: 'home', color: '#fff' }}
+        backgroundColor="#031785"
+      />
+    <ScrollView style={styles.scrollView}>
+      <Picker
+        selectedValue={gameInfo.Sport}
+        style={styles.picker}
+        itemStyle={styles.pickerItem}
+        onValueChange={(itemValue, itemIndex) => setGameInfo({...gameInfo, Sport: itemValue})}
+      >
+        <Picker.Item label="-Choose A Sport-" value="" color="white"/>
+        <Picker.Item label="Soccer" value="soccer" color="white"/>
+        <Picker.Item label="Basketball" value="bball" color="white"/>
+        <Picker.Item label="Hockey" value="puck" color="white"/>
+        <Picker.Item label="Volleyball" value="vball" color="white"/>
+        <Picker.Item label="Baseball" value="ball" color="white"/>
+        <Picker.Item label="Football" value="football" color="white"/>
+      </Picker>
+      <Picker
+        selectedValue={gameInfo.SkillLevel}
+        style={styles.picker}
+        itemStyle={styles.pickerItem}
+        onValueChange={(itemValue, itemIndex) => setGameInfo({...gameInfo, SkillLevel: itemValue})}
+        >
+        <Picker.Item label="-Skill Level Required-" value="" color="white"/>
+        <Picker.Item label="Amateur" value="amateur" color="white"/>
+        <Picker.Item label="Intermediate" value="intermediate" color="white"/>
+        <Picker.Item label="Advanced" value="advanced" color="white"/>
+      </Picker>
+
+      <Picker
+        selectedValue={gameInfo.Location}
+        style={styles.picker}
+        itemStyle={styles.pickerItem}
+        onValueChange={(itemValue, itemIndex) => setGameInfo({...gameInfo, Location: itemValue})}
+        >
+        <Picker.Item label="-Select Location-" value="" color="white"/>
+        <Picker.Item label="Kanata" value="kanata" color="white"/>
+        <Picker.Item label="Barhaven" value="barhaven" color="white"/>
+        <Picker.Item label="Nepean" value="nepean" color="white"/>
+        <Picker.Item label="Orleans" value="orleans" color="white"/>
+      </Picker>
+    
+      <Text> </Text>
+      <Text> </Text>
+    <View style={styles.inputView}>
+        <TextInput  
+          style={styles.inputText}
+          placeholder="               Please Enter Address..." 
+          placeholderTextColor="#e3e3e3"
+          //value={userCreds.username}
+          onChangeText={(addressInput) => setGameInfo({...gameInfo, Address: addressInput})}
+          />
+      </View> 
+      <Text> </Text>
+      <Text> </Text>
+      <Text style={styles.text}>Number of Players</Text>
+      <NumericInput 
+        style={styles.counter}
+       // type='up-down' 
+        //value="Number of players"
+        textColor='white'
+        totalWidth={365}
+        totalHeight={50}
+        rightButtonBackgroundColor='#031785' 
+        leftButtonBackgroundColor='#031785'
+        onChange={value => setGameInfo({...gameInfo, NumPlayers: value})} />
       
-      <View style={styles.container}>
-        <Header
-          leftComponent={{ icon: 'previous', color: '#fff' }}
-          centerComponent={{ text: 'Create Game', style: { color: '#fff' } }}
-          rightComponent={{ icon: 'home', color: '#fff' }}
-          backgroundColor="#090346"
-        />
-      <ScrollView>
-        <View style={styles.scrollView}>
-          <Dropdown
-            label="Sport"
-            data={data}
-            enableSearch
-            floating
-            required
-            rippleColor = "#ffffff"
-            underlineColor = "#191919"
-            //value={valueSS}
-            //onChange={onChangeSS}
-          />
-        </View>
-        <View style={styles.scrollView}>
-          <Dropdown 
-            label="Skill Level"
-            textInputPlaceholderColor = "#ffffff"
-            data={data}
-            enableSearch
-            //value={valueSS}
-            //onChange={onChangeSS}
-          />
-        </View>
-        <View style={styles.scrollView}>
-          <Dropdown
-            label="Number of Players"
-            data={data}
-            enableSearch
-            activityIndicatorColor = "red"
-            rippleColor = "#ffffff"
-            //value={valueSS}
-            //onChange={onChangeSS}
-          />
-        </View>
-        <View style={styles.scrollView}>
-          <Dropdown
-            label="Simple dropdown"
-            textInputPlaceholderColor = "#ffffff"
-            data={data}
-            enableSearch
-            //value={valueSS}
-            //onChange={onChangeSS}
-          />
-        </View>
-      </ScrollView>
+      
+    </ScrollView>
+
+    
+    <View>
+        <TouchableOpacity style={styles.button} onPress={createGameHandle}>
+            <Text style={styles.buttonText}>Create Game</Text>
+        </TouchableOpacity>
     </View>
-        // <View style={styles.container}>
-        //   <ScrollView contentContainerStyle = {styles.scrollView}>
-        //     <View style={styles.container}>
-        //       <Dropdown style={styles.dropdown}
-        //         label="Simple dropdown"
-        //         data={data}
-        //         // enableSearch
-        //         // value={valueSS}
-        //         // onChange={onChangeSS}
-        //       />
-        //     </View>
-        //   </ScrollView>
-        //   {/* <DropDownPicker
-        //       items={[
-        //           {label: 'Soccer', value: 'soccer', hidden: true},
-        //           {label: 'Basketball', value: 'basketball'},
-        //           {label: 'Hockey', value: 'hockey'},
-        //       ]}
-        //       defaultValue={this.state.country}
-        //       containerStyle={{height: 40}}
-        //       style={{backgroundColor: '#fafafa'}}
-        //       itemStyle={{
-        //           justifyContent: 'flex-start'
-        //       }}
-        //       dropDownStyle={{backgroundColor: '#fafafa'}}
-        //   /> */}
-        // </View>
-    );
+  </View>
+  );
     
 }
 
   
 const styles = StyleSheet.create({
     container: {
-      flexDirection: 'column',
-      height: '100%',
-      backgroundColor: "#191919"
+      flex: 1,
+      backgroundColor: '#191919',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    picker:{
+      flex: 0,
+      width: '100%'
+    },
+    pickerItem:{
+      flex:0,
+      height:120
+    },
+    counter:{
+      width:"100%",
+      justifyContent: "center",
+      alignItems: "center"
     },
     scrollView:{
       flex: 1,
-      backgroundColor: '#090346',
-      paddingTop: 30,
-      marginLeft: 20,
-      marginRight: 20,
+      // //backgroundColor: '#031785',
+      // paddingTop: 0,
+      // marginLeft: 20,
+      // marginRight: 20,
     },
-
+    text:{
+      textAlign: 'center',
+      fontSize:20,
+      color:"#e3e3e3"
+    },
     inputView:{
-      width:"80%",
-      backgroundColor:"#465881",
+      backgroundColor:"#262626",
+      width:"100%",
       borderRadius:25,
       height:50,
       marginBottom:20,
@@ -150,15 +168,19 @@ const styles = StyleSheet.create({
     },
     inputText:{
       height:50,
-      width:200,
+      fontSize:20,
+      width: "90%",
       color:"white"
     },
-    logo:{
-      fontWeight:"bold",
-      fontSize:30,
-      color:"#031785",
-      paddingTop:50,
-      marginBottom:40,
-      marginLeft: 80
+    button:{
+      width:200,
+      backgroundColor:"#031785",
+      borderRadius:25,
+      height:50,
+      alignItems:"center",
+      justifyContent:"center",
+      marginTop:0,
+      marginBottom:70
+      
     },
   });

@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { StyleSheet, View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity } from 'react-native';
 import * as firebase from 'firebase';
 
-export default function Signup(props) {
+export default function UserInfo(props) {
     const lastNameElement = useRef(null);
     const emailElement = useRef(null);
     const passwordElement = useRef(null);
@@ -32,24 +32,6 @@ export default function Signup(props) {
         .catch((error) => console.log("Error: " + error.message));
           
     }
-    
-    // function createPressed() {
-    //     if(credentials.password !== credentials.passwordConfirm) {
-    //         Alert.alert(ErrorMessages.TITLE, ErrorMessages.PASSWORD_MISMATCH);
-    //         return;
-    //     }
-    //     firebase.auth().createUserWithEmailAndPassword(credentials.email, credentials.password)
-    //         .then(() => {
-    //             addUser(credentials);   
-    //             props.navigation.goBack(); 
-    //         }, (error) => { 
-    //             Alert.alert(ErrorMessages.TITLE, mapError(error)); 
-    //         });
-    // }
-
-    // function backPressed() {
-    //     props.navigation.goBack();
-    // }
 
     return(
         <KeyboardAvoidingView behavior="height" style={styles.container}>

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Image, Text, KeyboardAvoidingView, Alert, ImageBackground } from 'react-native';
-import LoginForm from './InnerLogin.js';
 import * as firebase from 'firebase';
 import InnerLogin from './InnerLogin.js';
 
@@ -11,7 +10,7 @@ export default function OuterLogin(props) {
             .then(() => { 
                 global.email = credentials.email;
                 Alert.alert("Success")
-                //props.navigation.navigate('Home', { userEmail : credentials.email }); 
+                props.navigation.navigate('HomeScreen'); 
             }, (error) => { 
                 Alert.alert("Error", "Unable to signin!"); 
             });

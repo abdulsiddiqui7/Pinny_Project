@@ -23,7 +23,7 @@ export default function Signup(props) {
     function addUser(userCreds){
         firebase.firestore()
         .collection("Users")
-        .doc(userCreds.email)
+        .doc('userCreds.Name')
         .set({
             Name: userCreds.name,
             Username: userCreds.username,
@@ -93,16 +93,6 @@ export default function Signup(props) {
                         //onSubmitEditing={loginPressed}
                         value={userCreds.password}
                         onChangeText={(passwordInput) => setUserCreds({...userCreds, password: passwordInput})}
-                        ref={passwordElement}/>
-                </View>
-                <View style={styles.inputView}>
-                    <TextInput style={styles.inputText}
-                        secureTextEntry
-                        placeholder="Confirm Password..." 
-                        placeholderTextColor="#003f5c"
-                        //onSubmitEditing={loginPressed}
-                        value={userCreds.confirmPassword}
-                        onChangeText={(confirmPasswordInput) => setUserCreds({...userCreds, confirmPassword: confirmPasswordInput})}
                         ref={passwordElement}/>
                 </View>
                 <View>

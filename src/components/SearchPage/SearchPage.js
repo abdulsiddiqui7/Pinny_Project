@@ -1,8 +1,22 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, StatusBar, FlatList } from 'react-native';
 import { SearchBar } from 'react-native-elements';
-
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 export default function SearchPage (props) {
+    function getGames(){
+        firestore()
+        .collection('Users')
+        .get()
+        .then(querySnapshot => {
+
+            querySnapshot.forEach(documentSnapshot => {
+            console.log('User ID: ', documentSnapshot.sport, documentSnapshot.data());
+            });
+        });
+    }
+
+    getGames()
     // state = {
     //     search: '',
     // };
