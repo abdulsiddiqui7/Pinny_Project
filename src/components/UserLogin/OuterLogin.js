@@ -9,8 +9,19 @@ export default function OuterLogin(props) {
         firebase.auth().signInWithEmailAndPassword(credentials.email, credentials.password)
             .then(() => { 
                 global.email = credentials.email;
-                Alert.alert("Success")
-                props.navigation.navigate('HomeScreen'); 
+                firebase.firestore()
+                    .collection("Users")
+                    .doc(credentials.email)
+                    .get()
+                    .then(userInfo => {
+                        global.currUser = userInfo.data();
+                        console.log(global.currUser)
+                        console.log(userInfo.data())
+                        props.navigation.navigate('HomeScreen'); 
+                    })
+                    .catch()
+                //Alert.alert("Success")
+                
             }, (error) => { 
                 Alert.alert("Error", "Unable to signin!"); 
             });

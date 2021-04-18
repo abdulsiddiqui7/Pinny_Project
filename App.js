@@ -9,15 +9,15 @@ import CreateGame from './src/components/CreateGame/CreateGame'
 import {NavigationContainer} from '@react-navigation/native'
 import {createDrawerNavigator} from '@react-navigation/drawer'
 import {createStackNavigator} from '@react-navigation/stack'
-//import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs'
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs'
 //import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs'
 import firebase from 'firebase'
 import HomeScreen from './src/components/HomeScreen/HomeScreen';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
-// const MaterialBottomTabs = createMaterialBottomTabNavigator();
-// const MaterialTopTabNavigator = createMaterialTopTabNavigator();
+const MaterialBottomTabs = createMaterialBottomTabNavigator();
+//const MaterialTopTabNavigator = createMaterialTopTabNavigator();
 
 const ApiKeys = 
 {FirebaseConfig: {
@@ -39,24 +39,31 @@ export default class App extends React.Component {
     //firebase.auth().onAuthStateChanged(this.onAuthStateChanged);
   }
 
-  createHomeStack = () =>
-  <Stack.Navigator>
-    <Stack.Screen name="LoginScreen" component = {OuterLogin}/>
-    <Stack.Screen name="Signup" component = {UserSignup}/>
-    <Stack.Screen name="HomeScreen" component = {HomeScreen}/>
-  </Stack.Navigator>
+  createHomeStack = () =>{
+  return <MaterialBottomTabs.Navigator>
+    <MaterialBottomTabs.Screen options={ { title: "Home", headerStyle: {backgroundColor:'#031785'}, headerTintColor: "white"} }name="UserHome" component = {SearchPage}/>
+    <MaterialBottomTabs.Screen options={ { headerShown: false } }name = "CreateGame" component = {CreateGame}/>
+    <MaterialBottomTabs.Screen options={ { headerShown: false } }name="SearchPage" component = {SearchPage}/>
+    <MaterialBottomTabs.Screen options={ { headerShown: false } }name = "UserInfo" component = {UserInfo}/>
+  </MaterialBottomTabs.Navigator>
+  }
   render(){
     return (
       
       <NavigationContainer>
            
-      
-        <Drawer.Navigator>
+        <Stack.Navigator>
+          <Stack.Screen options={ { title: "Welcome to Pinny", headerStyle: {backgroundColor:'#031785'}, headerTintColor: "white"} } name="LoginScreen" component = {OuterLogin}/>
+          <Stack.Screen options={{headerStyle: {backgroundColor:'#031785'}, headerTintColor: "white", headerBackTitleVisible: false, headerLeft: false}} name="Signup" component = {UserSignup}/>
+          
+          <Stack.Screen options={ { title: "Pinny", headerStyle: {backgroundColor:'#031785'}, headerTintColor: "white"}}name="HomeScreen" component = {this.createHomeStack}/>
+        </Stack.Navigator>
+        {/* <Drawer.Navigator>
           <Drawer.Screen name = "Home" children={this.createHomeStack}/>
           <Drawer.Screen name = "CreateGame" component = {CreateGame}/>
           <Drawer.Screen name = "SearchPage" component = {SearchPage}/>
           <Drawer.Screen name = "UserInfo" component = {UserInfo}/>
-        </Drawer.Navigator> 
+        </Drawer.Navigator>  */}
       </NavigationContainer>
       //<AppNavigator/>
     );

@@ -61,7 +61,7 @@ export default function UserInfo(props) {
                 <View style={styles.inputView}>
                     <TextInput  
                         style={styles.inputText}
-                        placeholder="Email..." 
+                        placeholder = {global.currUser.Name}
                         placeholderTextColor="#003f5c"
                         onSubmitEditing={() => passwordElement.current.focus()}
                         value={userCreds.email}
@@ -88,17 +88,12 @@ export default function UserInfo(props) {
                         ref={passwordElement}/>
                 </View>
                 <View>
-                    <TouchableOpacity style={styles.button} onPress={signUpPressed}
+                    <TouchableOpacity style={styles.button} onPress={()=>console.log("The user data", global.currUser)}
                     >
-                        <Text style={styles.buttonText}>Signup</Text>
+                        <Text style={styles.buttonText}>Test</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.signUpContainer}>
-                        <Text style={{color:"#FFF"}}>Already have an account?</Text>
-                        <TouchableOpacity >
-                            <Text style={[styles.buttonText, styles.signUpText]}>Log in.  </Text>
-                        </TouchableOpacity>
-                </View> 
+                
             </View>
         </KeyboardAvoidingView>
     );
@@ -145,7 +140,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         textAlign: 'center',
-        color: '#031785',
+        color: 'white',
         fontWeight: 'bold',
     },
     signUpContainer: {

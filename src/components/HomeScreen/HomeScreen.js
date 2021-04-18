@@ -5,23 +5,36 @@ import { StyleSheet, Text, View, FlatList, TextInput, TouchableOpacity, Image } 
 
 
 export default function HomeScreen (props) {
-    const [gameData, setGameData]  = useState([])
-    function getGames(){
-        const list =[]
+    const [gameData, setGameData] = useState()
+    function getGames() {
+        var data = [];
         firebase.firestore()
-        .collection('PickupGames')
-        .get()
-        .then(querySnapshot => {
-            console.log('Total users: ', querySnapshot.size);
-            querySnapshot.forEach(documentSnapshot => {
-            console.log('User ID: ', documentSnapshot.data());
-            list.push(documentSnapshot.data());
-            setGameData(list)
+            .collection('PickupGames')
+            .get()
+            .where()
+            .then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                    // doc.data() is never undefined for query doc snapshots
+                    //console.log(doc.id, " => ", doc.data());
+                    data.push(doc.data());
+                });
+                console.log(data);
+                setGameData(data);
+                console.log("This is the data: ", gameData)
+            })
+            .catch(function (error) {
+                console.log("Error getting documents: ", error);
             });
-        });
-    }
+        
 
-    getGames()
+    }
+    useEffect(() => { 
+        console.log("Getting Games")
+        getGames() 
+        
+    },[]);
+
+    
     return (
         <View style={styles.container}>
             {/* <SearchBar

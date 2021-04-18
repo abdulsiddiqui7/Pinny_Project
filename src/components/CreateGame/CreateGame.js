@@ -39,12 +39,6 @@ export default function CreateGame (props) {
   }
   return (
     <View style={styles.container}>
-      <Header
-        leftComponent={{ icon: 'menu', color: '#fff' }}
-        centerComponent={{ text: 'Create Game', style: { color: '#fff' } }}
-        rightComponent={{ icon: 'home', color: '#fff' }}
-        backgroundColor="#031785"
-      />
     <ScrollView style={styles.scrollView}>
       <Picker
         selectedValue={gameInfo.Sport}
@@ -53,12 +47,12 @@ export default function CreateGame (props) {
         onValueChange={(itemValue, itemIndex) => setGameInfo({...gameInfo, Sport: itemValue})}
       >
         <Picker.Item label="-Choose A Sport-" value="" color="white"/>
-        <Picker.Item label="Soccer" value="soccer" color="white"/>
-        <Picker.Item label="Basketball" value="bball" color="white"/>
-        <Picker.Item label="Hockey" value="puck" color="white"/>
-        <Picker.Item label="Volleyball" value="vball" color="white"/>
-        <Picker.Item label="Baseball" value="ball" color="white"/>
-        <Picker.Item label="Football" value="football" color="white"/>
+        <Picker.Item label="Soccer" value="Soccer" color="white"/>
+        <Picker.Item label="Basketball" value="Basketball" color="white"/>
+        <Picker.Item label="Hockey" value="Hockey" color="white"/>
+        <Picker.Item label="Volleyball" value="Volleyball" color="white"/>
+        <Picker.Item label="Baseball" value="Baseball" color="white"/>
+        <Picker.Item label="Football" value="Football" color="white"/>
       </Picker>
       <Picker
         selectedValue={gameInfo.SkillLevel}
@@ -67,9 +61,9 @@ export default function CreateGame (props) {
         onValueChange={(itemValue, itemIndex) => setGameInfo({...gameInfo, SkillLevel: itemValue})}
         >
         <Picker.Item label="-Skill Level Required-" value="" color="white"/>
-        <Picker.Item label="Amateur" value="amateur" color="white"/>
-        <Picker.Item label="Intermediate" value="intermediate" color="white"/>
-        <Picker.Item label="Advanced" value="advanced" color="white"/>
+        <Picker.Item label="Amateur" value="Amateur" color="white"/>
+        <Picker.Item label="Intermediate" value="Intermediate" color="white"/>
+        <Picker.Item label="Advanced" value="Advanced" color="white"/>
       </Picker>
 
       <Picker
@@ -79,10 +73,10 @@ export default function CreateGame (props) {
         onValueChange={(itemValue, itemIndex) => setGameInfo({...gameInfo, Location: itemValue})}
         >
         <Picker.Item label="-Select Location-" value="" color="white"/>
-        <Picker.Item label="Kanata" value="kanata" color="white"/>
-        <Picker.Item label="Barhaven" value="barhaven" color="white"/>
-        <Picker.Item label="Nepean" value="nepean" color="white"/>
-        <Picker.Item label="Orleans" value="orleans" color="white"/>
+        <Picker.Item label="Kanata" value="Kanata" color="white"/>
+        <Picker.Item label="Barhaven" value="Barhaven" color="white"/>
+        <Picker.Item label="Nepean" value="Nepean" color="white"/>
+        <Picker.Item label="Orleans" value="Orleans" color="white"/>
       </Picker>
     
       <Text> </Text>

@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { StyleSheet, View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, Alert, Picker } from 'react-native';
 import * as firebase from 'firebase';
+import 'firebase/firestore';
+
 
 export default function Signup(props) {
     const lastNameElement = useRef(null);
@@ -12,40 +14,54 @@ export default function Signup(props) {
         username: '',
         email: '',
         password: '',
-        confirmPass: ''
+        confirmPassword: '',
+        location: '',
+        firstSportPref: '',
+        secondSportPref: '',
+        thirdSportPref: '',
+        firstSportSkill: '',
+        secondSportSkill: '',
+        thirdSportSkill: ''
       })
 
-    function signUpPressed(){
-        addUser(userCreds)
-        
-    }
 
-    function addUser(userCreds){
+    function addUser(userCredentials){
         firebase.firestore()
         .collection("Users")
-        .doc(userCreds.email)
+        .doc(userCredentials.email)
         .set({
-            Name: userCreds.name,
-            Username: userCreds.username,
-            Email: userCreds.email,
+            Name: userCredentials.name,
+            Username: userCredentials.username,
+            Email: userCredentials.email,
+            Location: userCredentials.location,
+            FirstSportPreference: userCredentials.firstSportPref,
+            SecondSportPreference: userCredentials.secondSportPref,
+            ThirdSportPreference: userCredentials.thirdSportPref,
+            FirstSportSkillLevel: userCredentials.firstSportSkill,
+            SecondSportSkillLevel: userCredentials.secondSportSkill,
+            ThirdSportSkillLevel: userCredentials.thirdSportSkill
+
         }).then((data) => alert("Success"))
         .catch((error) => console.log("Error: " + error.message));
           
     }
     
-    // function createPressed() {
-    //     if(credentials.password !== credentials.passwordConfirm) {
-    //         Alert.alert(ErrorMessages.TITLE, ErrorMessages.PASSWORD_MISMATCH);
-    //         return;
-    //     }
-    //     firebase.auth().createUserWithEmailAndPassword(credentials.email, credentials.password)
-    //         .then(() => {
-    //             addUser(credentials);   
-    //             props.navigation.goBack(); 
-    //         }, (error) => { 
-    //             Alert.alert(ErrorMessages.TITLE, mapError(error)); 
-    //         });
-    // }
+    function signUpPressed() {
+        if(userCreds.password !== userCreds.confirmPassword) {
+            Alert.alert("error wroing pass", "error wrong pass");
+            return;
+        }
+        firebase.auth().createUserWithEmailAndPassword(userCreds.email, userCreds.password)
+            .then(() => {
+                addUser(userCreds);   
+            }, (error) => { 
+                Alert.alert("Error", "Couldnt Sign In"); 
+            });
+    }
+
+    function loginPressed() {
+        props.navigation.navigate('LoginScreen');
+    }
 
     // function backPressed() {
     //     props.navigation.goBack();
@@ -53,11 +69,7 @@ export default function Signup(props) {
 
     return(
         <KeyboardAvoidingView behavior="height" style={styles.container}>
-            <View style={styles.formContainer}>
-                {/* <View style={styles.mascotContainer}>
-                    <Image style={styles.mascot} source={require('../../media/creamy/creamy-signup.png')}></Image>
-                </View> */}
-                <Text style={styles.containerTitle}>Sign Up</Text>
+            <View style={styles.container}>
                 <View style={styles.inputView}>
                     <TextInput  
                         style={styles.inputText}
@@ -105,18 +117,19 @@ export default function Signup(props) {
                         onChangeText={(confirmPasswordInput) => setUserCreds({...userCreds, confirmPassword: confirmPasswordInput})}
                         ref={passwordElement}/>
                 </View>
+                
                 <View>
                     <TouchableOpacity style={styles.button} onPress={signUpPressed}
                     >
                         <Text style={styles.buttonText}>Signup</Text>
                     </TouchableOpacity>
-                </View>
-                <View style={styles.signUpContainer}>
+                </View> 
+                 <View style={styles.signUpContainer}>
                         <Text style={{color:"#FFF"}}>Already have an account?</Text>
-                        <TouchableOpacity >
+                        <TouchableOpacity onpress={loginPressed}>
                             <Text style={[styles.buttonText, styles.signUpText]}>Log in.  </Text>
                         </TouchableOpacity>
-                </View> 
+                </View>  
             </View>
         </KeyboardAvoidingView>
     );
@@ -127,6 +140,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#191919",
         justifyContent: 'center',
+    },
+    sportSelect: {
+        flex: 1,
+        flexDirection: 'row'
+
     },
     formContainer: {
         padding: 20,
@@ -139,7 +157,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     inputView:{
-        width:"80%",
+        width:"100%",
         backgroundColor:"#465881",
         borderRadius:25,
         height:50,
@@ -163,7 +181,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         textAlign: 'center',
-        color: '#031785',
+        color: 'white',
         fontWeight: 'bold',
     },
     signUpContainer: {
@@ -173,5 +191,24 @@ const styles = StyleSheet.create({
     },
     signUpText: {
         paddingLeft: 5
+    },
+    sportPicker:{
+        flex: 1,
+        width: '20%'
+    },
+    skillPicker:{
+        flex: 1,
+        width: '20%'
+    },
+    sportPickerItem:{
+        flex:0,
+        height:120,
+        width: '125%'
+    },
+    skillPickerItem:{
+        flex:0,
+        height:120,
+        width: '80%',
+        marginLeft:30
     },
 });

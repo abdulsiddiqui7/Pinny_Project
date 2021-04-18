@@ -12,6 +12,10 @@ export default function InnerLogin (props) {
   function loginPressed(){
     props.loginEvent(userCreds);
   }
+
+  function signupPressed(){
+    props.signupEvent();
+  }
   return (
     <View style={styles.container}>
       
@@ -42,7 +46,7 @@ export default function InnerLogin (props) {
       <TouchableOpacity onPress={(loginPressed)} style={styles.loginBtn}>
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={(signupPressed)} style={styles.loginBtn}>
         <Text style={styles.loginText}>Signup</Text>
         
       </TouchableOpacity>
