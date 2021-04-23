@@ -44,7 +44,7 @@ export default function InnerLogin (props) {
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={(signupPressed)} style={styles.loginBtn}>
-        <Text style={styles.loginText}>LOGIN</Text>
+        <Text style={styles.loginText}>Signp</Text>
       </TouchableOpacity>
       <View style={styles.signUpContainer}>
         <Text style={{color:"#FFF"}}>Don't have an account?</Text>
@@ -63,12 +63,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  logo:{
-    fontWeight:"bold",
-    fontSize:50,
-    color:"#031785",
-    marginBottom:40
-  },
   inputView:{
     width:"80%",
     backgroundColor:"#465881",
@@ -82,10 +76,6 @@ const styles = StyleSheet.create({
     height:50,
     width:200,
     color:"white"
-  },
-  forgot:{
-    color:"white",
-    fontSize:11
   },
   loginBtn:{
     width:"80%",

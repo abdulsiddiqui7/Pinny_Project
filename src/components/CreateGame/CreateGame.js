@@ -8,7 +8,6 @@ import DatePicker from 'react-native-datepicker'
 export default function CreateGame (props) {
 
   const [gameInfo, setGameInfo] = useState({
-    //BookingCost: "",
     Location: "",
     NumPlayers: "",
     SkillLevel: "",
@@ -22,7 +21,6 @@ export default function CreateGame (props) {
     firebase.firestore()
     .collection("PickupGames")
     .add({
-      //BookingCost: gameInfo.BookingCost,
       OrgName: global.currUser.Name,
       OrgEmail: global.currUser.Email,
       GameID: Math.floor(Math.random() * 10000000) + 1,
@@ -95,7 +93,6 @@ export default function CreateGame (props) {
           style={styles.inputText}
           placeholder="               Please Enter Address..." 
           placeholderTextColor="#e3e3e3"
-          //value={userCreds.username}
           onChangeText={(addressInput) => setGameInfo({...gameInfo, Address: addressInput})}
           />
       </View> 
@@ -104,8 +101,6 @@ export default function CreateGame (props) {
       <Text style={styles.text}>Number of Players</Text>
       <NumericInput 
         style={styles.counter}
-       // type='up-down' 
-        //value="Number of players"
         textColor='white'
         totalWidth={365}
         totalHeight={50}
@@ -133,7 +128,6 @@ export default function CreateGame (props) {
           dateInput: {
             marginLeft: 36
           }
-          // ... You can check the source to find the other keys.
         }}
         onDateChange={(date) => {setGameInfo({...gameInfo, Date: date})}}
       />
@@ -173,10 +167,6 @@ const styles = StyleSheet.create({
     },
     scrollView:{
       flex: 1,
-      // //backgroundColor: '#031785',
-      // paddingTop: 0,
-      // marginLeft: 20,
-      // marginRight: 20,
     },
     text:{
       textAlign: 'center',

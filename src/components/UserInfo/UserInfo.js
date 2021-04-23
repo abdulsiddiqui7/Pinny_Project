@@ -3,10 +3,6 @@ import { StyleSheet, View, Text, KeyboardAvoidingView, TouchableOpacity, Picker 
 import * as firebase from 'firebase';
 
 export default function UserInfo(props) {
-    const lastNameElement = useRef(null);
-    const emailElement = useRef(null);
-    const passwordElement = useRef(null);
-    const passwordConfirmElement = useRef(null);
     const [userPref, setUserPref] = useState({
         location: global.currUser.Location,
         firstSportPref: global.currUser.FirstSportPreference,
@@ -157,10 +153,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#191919",
-        //justifyContent: 'center',
     },
     sportSelect: {
-        //flex: 1,
         flexDirection: 'row'
 
     },

@@ -49,21 +49,8 @@ export default function ExplorePage(props) {
             return football
 
     }
-    // state = {
-    //     search: '',
-    // };
-
-    // updateSearch = (search) => {
-    //     this.setState({ search });
-    // };
-    // const { search } = this.state;
     return (
         <View style={styles.container}>
-            {/* <SearchBar
-                placeholder="Type Here..."
-                onChangeText={this.updateSearch}
-                value={search}
-            /> */}
            
             <ScrollView style={styles.scrollAreaContainer}>
                 <FlatList
@@ -111,8 +98,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     scrollAreaContainer: {
-        //flex: 1,
-        //backgroundColor: '#191919',
         height: "50%"
     },
     gameContainer: {
@@ -138,17 +123,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold', 
         fontSize: 35,
         color: 'white',
-    },
-    signupBtn: {
-        width: "80%",
-        backgroundColor: "#031785",
-        borderRadius: 25,
-        height: 50,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 40,
-        marginLeft: 35,
-        marginBottom: 10
     },
     image: {
         flex: 1,

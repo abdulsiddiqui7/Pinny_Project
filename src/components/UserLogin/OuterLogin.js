@@ -18,7 +18,6 @@ export default function OuterLogin(props) {
                         props.navigation.navigate('HomeScreen'); 
                     })
                     .catch()
-                //Alert.alert("Success")
                 
             }, (error) => { 
                 Alert.alert("Error", "Unable to signin!"); 
@@ -35,9 +34,7 @@ export default function OuterLogin(props) {
 
     return (
         <KeyboardAvoidingView behavior="height" style={styles.container}>
-                
                     <InnerLogin loginEvent={LoginHandle} signupEvent={signupHandle} forgotPasswordEvent={forgotHandle}></InnerLogin>
-                
         </KeyboardAvoidingView>
     );
 }

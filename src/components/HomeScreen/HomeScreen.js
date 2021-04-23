@@ -45,39 +45,9 @@ export default function HomeScreen (props) {
             });
     }
 
-    function addPlayer(aGame){
-        console.log("This is the game",aGame)
-        // firebase.firestore()
-        //     .collection('Users')
-        //     .doc(global.currUser.email)
-        //     .update({
-        //         Games: Games.push(aGame),
-        //     })
-    }
 
-    function getMyGames(){
-        var data = [];
-        var counter = 0;
-        firebase.firestore()
-            .collection('PickupGames')
-            .get()
-            .then(function (querySnapshot) {
-                querySnapshot.forEach(function (doc) {
-                    for(counter=0; counter<global.currUser.Games.length; counter ++){
-                        if(doc.gameID == global.currUser.Games[counter]){
-                            data.push(doc.data());
-                        }
-                    }
-                    
-                });
-                setMyGameData(data);
-            })
-            .catch(function (error) {
-            });
-    }
     useEffect(() => { 
         getGames() 
-        getMyGames()
     },[]);
 
 
@@ -169,17 +139,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold', 
         fontSize: 35,
         color: 'white',
-    },
-    signupBtn: {
-        width: "80%",
-        backgroundColor: "#031785",
-        borderRadius: 25,
-        height: 50,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 40,
-        marginLeft: 35,
-        marginBottom: 10
     },
     image: {
         flex: 1,

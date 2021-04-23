@@ -5,10 +5,7 @@ import 'firebase/firestore';
 
 
 export default function Signup(props) {
-    const lastNameElement = useRef(null);
-    const emailElement = useRef(null);
     const passwordElement = useRef(null);
-    const passwordConfirmElement = useRef(null);
     const [userCreds, setUserCreds] = useState({
         name: '',
         username: '',
@@ -66,12 +63,7 @@ export default function Signup(props) {
         props.navigation.navigate('LoginScreen');
     }
 
-    // function backPressed() {
-    //     props.navigation.goBack();
-    // }
-
     return(
-        //<KeyboardAvoidingView behavior="height" style={styles.container}>
             <View style={styles.container}>
                 <View style={styles.inputView}>
                     <TextInput  
@@ -104,8 +96,7 @@ export default function Signup(props) {
                     <TextInput style={styles.inputText}
                         secureTextEntry
                         placeholder="Password..." 
-                        placeholderTextColor="#003f5c"
-                        //onSubmitEditing={loginPressed}
+                        placeholderTextColor="#003f5c"ß
                         value={userCreds.password}
                         onChangeText={(passwordInput) => setUserCreds({...userCreds, password: passwordInput})}
                         ref={passwordElement}/>
@@ -115,7 +106,6 @@ export default function Signup(props) {
                         secureTextEntry
                         placeholder="Confirm Password..." 
                         placeholderTextColor="#003f5c"
-                        //onSubmitEditing={loginPressed}
                         value={userCreds.confirmPassword}
                         onChangeText={(confirmPasswordInput) => setUserCreds({...userCreds, confirmPassword: confirmPasswordInput})}
                         ref={passwordElement}/>
@@ -137,7 +127,6 @@ export default function Signup(props) {
                         </TouchableOpacity>
                 </View>  
             </View>
-       // </KeyboardAvoidingView>
     );
 }
 
@@ -146,21 +135,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#191919",
         justifyContent: 'center',
-    },
-    sportSelect: {
-        flex: 1,
-        flexDirection: 'row'
-
-    },
-    formContainer: {
-        padding: 20,
-    },
-    containerTitle: {
-        fontWeight: 'bold',
-        fontSize: 30,
-        color: '#FFF',
-        marginBottom: 20,
-        textAlign: 'center'
     },
     inputView:{
         width:"100%",
@@ -171,14 +145,6 @@ const styles = StyleSheet.create({
         justifyContent:"center",
         padding:20
       },
-    input: {
-        height: 40,
-        backgroundColor: 'rgba(255,255,255,0.3)',
-        marginBottom: 10,
-        color: '#FFF',
-        paddingHorizontal: 20,
-        borderRadius: 50,
-    },
     button: {
         backgroundColor: '#031785',
         paddingVertical: 15,
@@ -197,24 +163,5 @@ const styles = StyleSheet.create({
     },
     signUpText: {
         paddingLeft: 5
-    },
-    sportPicker:{
-        flex: 1,
-        width: '20%'
-    },
-    skillPicker:{
-        flex: 1,
-        width: '20%'
-    },
-    sportPickerItem:{
-        flex:0,
-        height:120,
-        width: '125%'
-    },
-    skillPickerItem:{
-        flex:0,
-        height:120,
-        width: '80%',
-        marginLeft:30
     },
 });

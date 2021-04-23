@@ -7,14 +7,12 @@ import UserSignup from './src/components/UserSignup/UserSignup'
 import UserInfo from './src/components/UserInfo/UserInfo'
 import CreateGame from './src/components/CreateGame/CreateGame'
 import {NavigationContainer} from '@react-navigation/native'
-import {createDrawerNavigator} from '@react-navigation/drawer'
 import {createStackNavigator} from '@react-navigation/stack'
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs'
 import firebase from 'firebase'
 import HomeScreen from './src/components/HomeScreen/HomeScreen';
 import Icon from 'react-native-vector-icons/Ionicons'
 
-const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 const MaterialBottomTabs = createMaterialBottomTabNavigator();
 
@@ -34,7 +32,6 @@ export default class App extends React.Component {
   constructor(props) {
    super(props)
     if(!firebase.apps.length) { firebase.initializeApp(ApiKeys.FirebaseConfig); }
-    //firebase.auth().onAuthStateChanged(this.onAuthStateChanged);
   }
 
   createHomeStack = () =>{
@@ -79,7 +76,6 @@ export default class App extends React.Component {
           <Stack.Screen options={ { title: "Pinny", headerStyle: {backgroundColor:'#031785'}, headerTintColor: "white", headerBackTitleVisible: false, headerLeft: false}}name="HomeScreen" component = {this.createHomeStack}/>
         </Stack.Navigator>
       </NavigationContainer>
-      //<AppNavigator/>
     );
   }
 }
