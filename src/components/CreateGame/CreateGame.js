@@ -1,26 +1,9 @@
-//import React from 'react';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Picker} from 'react-native';
-//import DropDownPicker from 'react-native-dropdown-picker';
+import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Picker, Alert} from 'react-native';
 import NumericInput from 'react-native-numeric-input'
-import { Header } from 'react-native-elements';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
-
-
-export function addGame(gameInfo){
-  firebase.firestore()
-  .collection("PickupGames")
-  .add({
-    //BookingCost: gameInfo.BookingCost,
-    Location: gameInfo.Location,
-    NumPlayers: gameInfo.NumPlayers,
-    SkillLevel: gameInfo.SkillLevel,
-    Sport: gameInfo.Sport,
-    Address: gameInfo.Address
-  }).then((data) => console.log("Success!"))
-  .catch((error) => console.log("Error: " + error.message));
-}
+import DatePicker from 'react-native-datepicker'
 
 export default function CreateGame (props) {
 
@@ -31,14 +14,40 @@ export default function CreateGame (props) {
     SkillLevel: "",
     Sport: "",
     Address: "",
+    Data: ""
   })
   const [selectedSport, setSelectedSport] = useState("");
+
+  function addGame(gameInfo){
+    firebase.firestore()
+    .collection("PickupGames")
+    .add({
+      //BookingCost: gameInfo.BookingCost,
+      OrgName: global.currUser.Name,
+      OrgEmail: global.currUser.Email,
+      GameID: Math.floor(Math.random() * 10000000) + 1,
+      Location: gameInfo.Location,
+      NumPlayers: gameInfo.NumPlayers,
+      SkillLevel: gameInfo.SkillLevel,
+      Sport: gameInfo.Sport,
+      Address: gameInfo.Address,
+      Date: gameInfo.Date,
+    }).then(()=> {
+    Alert.alert("Success", "Created Game");
+    props.navigation.navigate('HomeScreen');
+    })
+    .catch(function (error) {
+      Alert.alert("Error", "Could not create game")
+  });
+  
+  }
 
   function createGameHandle(){
     addGame(gameInfo)
   }
   return (
     <View style={styles.container}>
+      
     <ScrollView style={styles.scrollView}>
       <Picker
         selectedValue={gameInfo.Sport}
@@ -103,14 +112,37 @@ export default function CreateGame (props) {
         rightButtonBackgroundColor='#031785' 
         leftButtonBackgroundColor='#031785'
         onChange={value => setGameInfo({...gameInfo, NumPlayers: value})} />
-      
-      
+      <Text></Text>
+      <Text></Text>
+      <Text></Text>
+      <DatePicker
+        style={{width: 350}}
+        date={gameInfo.Date}
+        mode="date"
+        placeholder="select date"
+        format="YYYY-MM-DD"
+        confirmBtnText="Confirm"
+        cancelBtnText="Cancel"
+        customStyles={{
+          dateIcon: {
+            position: 'absolute',
+            left: 0,
+            top: 4,
+            marginLeft: 0
+          },
+          dateInput: {
+            marginLeft: 36
+          }
+          // ... You can check the source to find the other keys.
+        }}
+        onDateChange={(date) => {setGameInfo({...gameInfo, Date: date})}}
+      />
     </ScrollView>
 
     
     <View>
         <TouchableOpacity style={styles.button} onPress={createGameHandle}>
-            <Text style={styles.buttonText}>Create Game</Text>
+            <Text>Create Game</Text>
         </TouchableOpacity>
     </View>
   </View>

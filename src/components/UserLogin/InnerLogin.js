@@ -1,5 +1,4 @@
 import React, { useState, useRef }  from 'react';
-import * as firebase from 'firebase';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
 
 export default function InnerLogin (props) {
@@ -19,7 +18,8 @@ export default function InnerLogin (props) {
   return (
     <View style={styles.container}>
       
-      <Text style={styles.logo}>Pinny</Text>
+      <Image style={styles.tinyLogo}
+        source={require('../../pictures/pinny.png')}/>
       <View style={styles.inputView}>
         <TextInput  
           style={styles.inputText}
@@ -40,16 +40,18 @@ export default function InnerLogin (props) {
           onChangeText={(passwordInput) => setUserCreds({...userCreds, password: passwordInput})}
           ref={passwordElement}/>
       </View>
-      <TouchableOpacity>
-        <Text style={styles.forgot}>Forgot Password?</Text>
-      </TouchableOpacity>
       <TouchableOpacity onPress={(loginPressed)} style={styles.loginBtn}>
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={(signupPressed)} style={styles.loginBtn}>
-        <Text style={styles.loginText}>Signup</Text>
-        
+        <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
+      <View style={styles.signUpContainer}>
+        <Text style={{color:"#FFF"}}>Don't have an account?</Text>
+        <TouchableOpacity onpress={signupPressed}>
+            <Text style={[styles.buttonText, styles.signUpText]}>Signup </Text>
+        </TouchableOpacity>
+      </View>  
     </View>
   );
 }
@@ -96,7 +98,27 @@ const styles = StyleSheet.create({
     marginTop:40,
     marginBottom:10
   },
+  signUpContainer: {
+    justifyContent: 'center',
+    padding: 10,
+    flexDirection: 'row'
+  },
   loginText:{
     color:"white"
-  }
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  signUpText: {
+      paddingLeft: 5
+  },
+  tinyLogo: {
+    width: 200,
+    height: 200,
+    marginTop:-100,
+    marginBottom: 30
+  
+  },
 });

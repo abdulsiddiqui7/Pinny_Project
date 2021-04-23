@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { StyleSheet, View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, KeyboardAvoidingView, TouchableOpacity, Picker } from 'react-native';
 import * as firebase from 'firebase';
 
 export default function UserInfo(props) {
@@ -7,27 +7,33 @@ export default function UserInfo(props) {
     const emailElement = useRef(null);
     const passwordElement = useRef(null);
     const passwordConfirmElement = useRef(null);
-    const [userCreds, setUserCreds] = useState({
-        name: '',
-        username: '',
-        email: '',
-        password: '',
-        confirmPass: ''
+    const [userPref, setUserPref] = useState({
+        location: global.currUser.Location,
+        firstSportPref: global.currUser.FirstSportPreference,
+        secondSportPref: global.currUser.SecondSportPreference,
+        thirdSportPref: global.currUser.ThirdSportPreference,
+        firstSportSkill: global.currUser.FirstSportSkillLevel,
+        secondSportSkill: global.currUser.SecondSportSkillLevel,
+        thirdSportSkill: global.currUser.ThirdSportSkillLevelß,
       })
 
-    function signUpPressed(){
-        addUser(userCreds)
-        
+    function updatePressed(){
+        userPrefs(userPref)
+        props.navigation.navigate('HomeScreen'); 
     }
 
-    function addUser(userCreds){
+    function userPrefs(userPref){
         firebase.firestore()
         .collection("Users")
-        .doc(userCreds.email)
-        .set({
-            Name: userCreds.name,
-            Username: userCreds.username,
-            Email: userCreds.email,
+        .doc(global.currUser.Email)
+        .update({
+            Location: userPref.location,
+            FirstSportPreference: userPref.firstSportPref,
+            SecondSportPreference: userPref.secondSportPref,
+            ThirdSportPreference: userPref.thirdSportPref,
+            FirstSportSkillLevel: userPref.firstSportSkill,
+            SecondSportSkillLevel: userPref.secondSportSkill,
+            ThirdSportSkillLevel: userPref.thirdSportSkill
         }).then((data) => alert("Success"))
         .catch((error) => console.log("Error: " + error.message));
           
@@ -35,62 +41,110 @@ export default function UserInfo(props) {
 
     return(
         <KeyboardAvoidingView behavior="height" style={styles.container}>
-            <View style={styles.formContainer}>
-                {/* <View style={styles.mascotContainer}>
-                    <Image style={styles.mascot} source={require('../../media/creamy/creamy-signup.png')}></Image>
-                </View> */}
-                <Text style={styles.containerTitle}>Sign Up</Text>
-                <View style={styles.inputView}>
-                    <TextInput  
-                        style={styles.inputText}
-                        placeholder="Name..." 
-                        placeholderTextColor="#003f5c"
-                        onSubmitEditing={() => passwordElement.current.focus()}
-                        value={userCreds.name}
-                        onChangeText={(nameInput) => setUserCreds({...userCreds, name: nameInput})}/>
+            <View style={styles.Container}>
+                <View style={styles.sportSelect}>
+                    <Picker
+                        selectedValue={userPref.location}
+                        style={styles.picker}
+                        itemStyle={styles.pickerItem}
+                        onValueChange={(itemValue, itemIndex) => setUserPref({...userPref, location: itemValue})}
+                        >
+                        <Picker.Item label="-Select Location-" value="" color="white"/>
+                        <Picker.Item label="Kanata" value="Kanata" color="white"/>
+                        <Picker.Item label="Barhaven" value="Barhaven" color="white"/>
+                        <Picker.Item label="Nepean" value="Nepean" color="white"/>
+                        <Picker.Item label="Orleans" value="Orleans" color="white"/>
+                    </Picker>
                 </View>
-                <View style={styles.inputView}>
-                    <TextInput  
-                        style={styles.inputText}
-                        placeholder="Username..." 
-                        placeholderTextColor="#003f5c"
-                        onSubmitEditing={() => passwordElement.current.focus()}
-                        value={userCreds.username}
-                        onChangeText={(usernameInput) => setUserCreds({...userCreds, username: usernameInput})}/>
-                </View>
-                <View style={styles.inputView}>
-                    <TextInput  
-                        style={styles.inputText}
-                        placeholder = {global.currUser.Name}
-                        placeholderTextColor="#003f5c"
-                        onSubmitEditing={() => passwordElement.current.focus()}
-                        value={userCreds.email}
-                        onChangeText={(emailInput) => setUserCreds({...userCreds, email: emailInput})}/>
-                </View>
-                <View style={styles.inputView}>
-                    <TextInput style={styles.inputText}
-                        secureTextEntry
-                        placeholder="Password..." 
-                        placeholderTextColor="#003f5c"
-                        //onSubmitEditing={loginPressed}
-                        value={userCreds.password}
-                        onChangeText={(passwordInput) => setUserCreds({...userCreds, password: passwordInput})}
-                        ref={passwordElement}/>
-                </View>
-                <View style={styles.inputView}>
-                    <TextInput style={styles.inputText}
-                        secureTextEntry
-                        placeholder="Confirm Password..." 
-                        placeholderTextColor="#003f5c"
-                        //onSubmitEditing={loginPressed}
-                        value={userCreds.confirmPassword}
-                        onChangeText={(confirmPasswordInput) => setUserCreds({...userCreds, confirmPassword: confirmPasswordInput})}
-                        ref={passwordElement}/>
-                </View>
-                <View>
-                    <TouchableOpacity style={styles.button} onPress={()=>console.log("The user data", global.currUser)}
+                <Text></Text>
+                <View style={styles.sportSelect}>
+                    <Picker
+                        selectedValue={userPref.firstSportPref}
+                        style={styles.sportPicker}
+                        itemStyle={styles.sportPickerItem}
+                        onValueChange={(itemValue, itemIndex) => setUserPref({...userPref, firstSportPref: itemValue})}
                     >
-                        <Text style={styles.buttonText}>Test</Text>
+                        <Picker.Item label="-First Preferred Sport-" value="" color="white"/>
+                        <Picker.Item label="Soccer" value="Soccer" color="white"/>
+                        <Picker.Item label="Basketball" value="Basketball" color="white"/>
+                        <Picker.Item label="Hockey" value="Hockey" color="white"/>
+                        <Picker.Item label="Volleyball" value="Volleyball" color="white"/>
+                        <Picker.Item label="Baseball" value="Baseball" color="white"/>
+                        <Picker.Item label="Football" value="Football" color="white"/>
+                    </Picker>
+                    <Picker
+                        selectedValue={userPref.firstSportSkill}
+                        style={styles.skillPicker}
+                        itemStyle={styles.skillPickerItem}
+                        onValueChange={(itemValue, itemIndex) => setUserPref({...userPref, firstSportSkill: itemValue})}
+                        >
+                        <Picker.Item label="-Skill Level-" value="" color="white"/>
+                        <Picker.Item label="Amateur" value="Amateur" color="white"/>
+                        <Picker.Item label="Intermediate" value="Intermediate" color="white"/>
+                        <Picker.Item label="Advanced" value="Advanced" color="white"/>
+                    </Picker>
+                </View>
+                <View style={styles.sportSelect}>
+                    <Picker
+                        selectedValue={userPref.secondSportPref}
+                        style={styles.sportPicker}
+                        itemStyle={styles.sportPickerItem}
+                        onValueChange={(itemValue, itemIndex) => setUserPref({...userPref, secondSportPref: itemValue})}
+                    >
+                        <Picker.Item label="-Second Preferred Sport-" value="" color="white"/>
+                        <Picker.Item label="Soccer" value="Soccer" color="white"/>
+                        <Picker.Item label="Basketball" value="Basketball" color="white"/>
+                        <Picker.Item label="Hockey" value="Hockey" color="white"/>
+                        <Picker.Item label="Volleyball" value="Volleyball" color="white"/>
+                        <Picker.Item label="Baseball" value="Baseball" color="white"/>
+                        <Picker.Item label="Football" value="Football" color="white"/>
+                    </Picker>
+                    <Picker
+                        selectedValue={userPref.secondSportSkill}
+                        style={styles.skillPicker}
+                        itemStyle={styles.skillPickerItem}
+                        onValueChange={(itemValue, itemIndex) => setUserPref({...userPref, secondSportSkill: itemValue})}
+                        >
+                        <Picker.Item label="-Skill Level-" value="" color="white"/>
+                        <Picker.Item label="Amateur" value="Amateur" color="white"/>
+                        <Picker.Item label="Intermediate" value="Intermediate" color="white"/>
+                        <Picker.Item label="Advanced" value="Advanced" color="white"/>
+                    </Picker>
+                </View>
+                <View style={styles.sportSelect}>
+                    <Picker
+                        selectedValue={userPref.thirdSportPref}
+                        style={styles.sportPicker}
+                        itemStyle={styles.sportPickerItem}
+                        onValueChange={(itemValue, itemIndex) => setUserPref({...userPref, thirdSportPref: itemValue})}
+                    >
+                        <Picker.Item label="-Third Preferred Sport-" value="" color="white"/>
+                        <Picker.Item label="Soccer" value="Soccer" color="white"/>
+                        <Picker.Item label="Basketball" value="Basketball" color="white"/>
+                        <Picker.Item label="Hockey" value="Hockey" color="white"/>
+                        <Picker.Item label="Volleyball" value="Volleyball" color="white"/>
+                        <Picker.Item label="Baseball" value="Baseball" color="white"/>
+                        <Picker.Item label="Football" value="Football" color="white"/>
+                    </Picker>
+                    <Picker
+                        selectedValue={userPref.thirdSportSkill}
+                        style={styles.skillPicker}
+                        itemStyle={styles.skillPickerItem}
+                        onValueChange={(itemValue, itemIndex) => setUserPref({...userPref, thirdSportSkill: itemValue})}
+                        >
+                        <Picker.Item label="-Skill Level-" value="" color="white"/>
+                        <Picker.Item label="Amateur" value="Amateur" color="white"/>
+                        <Picker.Item label="Intermediate" value="Intermediate" color="white"/>
+                        <Picker.Item label="Advanced" value="Advanced" color="white"/>
+                    </Picker>
+                </View>
+
+                
+                
+                <View style={styles.container}>
+                    <TouchableOpacity style={styles.button} onPress={()=>updatePressed()}
+                    >
+                        <Text style={styles.buttonText}>Update</Text>
                     </TouchableOpacity>
                 </View>
                 
@@ -103,7 +157,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#191919",
-        justifyContent: 'center',
+        //justifyContent: 'center',
+    },
+    sportSelect: {
+        //flex: 1,
+        flexDirection: 'row'
+
     },
     formContainer: {
         padding: 20,
@@ -115,27 +174,13 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         textAlign: 'center'
     },
-    inputView:{
-        width:"80%",
-        backgroundColor:"#465881",
-        borderRadius:25,
-        height:50,
-        marginBottom:20,
-        justifyContent:"center",
-        padding:20
-      },
-    input: {
-        height: 40,
-        backgroundColor: 'rgba(255,255,255,0.3)',
-        marginBottom: 10,
-        color: '#FFF',
-        paddingHorizontal: 20,
-        borderRadius: 50,
-    },
     button: {
         backgroundColor: '#031785',
+        height: 50,
+        width: '50%',
         paddingVertical: 15,
-        margin: 10,
+        marginLeft: 100,
+        marginTop:75,
         borderRadius: 50,
     },
     buttonText: {
@@ -143,12 +188,36 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
     },
-    signUpContainer: {
-        justifyContent: 'center',
-        padding: 10,
-        flexDirection: 'row'
-    },
     signUpText: {
         paddingLeft: 5
+    },
+    sportPicker:{
+        flex: 1,
+        width: '20%'
+    },
+    skillPicker:{
+        flex: 1,
+        width: '20%'
+    },
+    sportPickerItem:{
+        flex:0,
+        height:120,
+        width: '125%'
+    },
+    skillPickerItem:{
+        flex:0,
+        height:120,
+        width: '80%',
+        marginLeft:30
+    },
+    picker:{
+        flex: 0,
+        width: '100%',
+        height:80,
+    },
+    pickerItem:{
+        flex:0,
+        height:120,
+        width: '100%',
     },
 });

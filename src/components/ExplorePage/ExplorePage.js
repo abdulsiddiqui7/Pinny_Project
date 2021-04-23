@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, StatusBar, FlatList ,ImageBackground } from 'react-native';
-import { SearchBar } from 'react-native-elements';
+import { StyleSheet, Text, View, TouchableOpacity, FlatList ,ImageBackground, ScrollView } from 'react-native';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
-export default function SearchPage(props) {
+const soccer = require('../../pictures/soccer.png')
+const basketball = require('../../pictures/basketball.png')
+const hockey = require('../../pictures/hockey.png')
+const baseball = require('../../pictures/baseball.png')
+const volleyball = require('../../pictures/volleyball.png')
+const football = require('../../pictures/football.png')
+
+export default function ExplorePage(props) {
     const [gameData, setGameData] = useState()
     function getGames() {
         var data = [];
@@ -13,27 +19,36 @@ export default function SearchPage(props) {
             .get()
             .then(function (querySnapshot) {
                 querySnapshot.forEach(function (doc) {
-                    // doc.data() is never undefined for query doc snapshots
-                    //console.log(doc.id, " => ", doc.data());
                     data.push(doc.data());
                 });
-                console.log(data);
                 setGameData(data);
-                //console.log("This is the data: ", gameData)
             })
             .catch(function (error) {
-                console.log("Error getting documents: ", error);
+                Alert.alert("Error", "Could not retrieve data")
             });
         
 
     }
     useEffect(() => { 
-        //console.log("Getting Games")
         getGames() 
         
     },[]);
 
-    
+    function sportPicture(sport){
+        if (sport == "Soccer")
+            return soccer
+        else if (sport == "Basketball")
+            return basketball
+        else if (sport == "Hockey")
+            return hockey
+        else if (sport == "Baseball")
+            return baseball
+        else if (sport == "Volleyball")
+            return volleyball
+        else 
+            return football
+
+    }
     // state = {
     //     search: '',
     // };
@@ -50,7 +65,7 @@ export default function SearchPage(props) {
                 value={search}
             /> */}
            
-            <View style={styles.scrollAreaContainer}>
+            <ScrollView style={styles.scrollAreaContainer}>
                 <FlatList
                     data={gameData}
 
@@ -60,16 +75,18 @@ export default function SearchPage(props) {
                         return (
                             <View style={StyleSheet.gameContainer}>
                                 <View style={styles.infoContainer}>
-                                    <ImageBackground source={require('../../pictures/sports.png')} style={styles.image}>
-                                        <Text style={styles.titleText}>{item.Sport}</Text>
+                                    <ImageBackground source={sportPicture(item.Sport)} style={styles.image}>
+                                    <Text style={styles.titleText}>{item.Sport}</Text>
+                                        <Text></Text>
+                                        <Text style={styles.aText}>Organizer Information:</Text>
+                                        <Text style={styles.aText}>{item.OrgName}</Text>
+                                        <Text style={styles.aText}>{item.OrgEmail}</Text>
                                         <Text style={styles.aText}>Skill Level Required: {item.SkillLevel}</Text>
                                         <Text style={styles.aText}>Number of Players: {item.NumPlayers}</Text>
                                         <Text style={styles.aText}>Location: {item.Location}</Text>
                                         <Text style={styles.aText}>Addrees: {item.Address}</Text>
-                                        <TouchableOpacity style={styles.loginBtn} onPress={() => console.log(gameData)}>
-                                            <Text>LOGIN</Text>
-                                        </TouchableOpacity>
-                                        <Text>________________________________________</Text>
+                                        <Text style={styles.aText}>Date: {item.Date}</Text>
+                                        <Text>_________________________________________________</Text>
                                     </ImageBackground>
                                 </View>
                             </View>
@@ -77,7 +94,7 @@ export default function SearchPage(props) {
                         );
                     }}
                 ></FlatList>
-            </View>
+            </ScrollView>
 
         </View>
     );
@@ -94,8 +111,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     scrollAreaContainer: {
-        flex: 1,
-        backgroundColor: '#191919',
+        //flex: 1,
+        //backgroundColor: '#191919',
+        height: "50%"
     },
     gameContainer: {
         flexDirection: 'row',
@@ -107,12 +125,13 @@ const styles = StyleSheet.create({
     infoContainer: {
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: '#191919'
     },
     aText: {
-        color: "white"
+        color: "white",
+        justifyContent: 'center',
+        textAlign: 'center'
+        
     },
     titleText:{
         textAlign: 'center', 
@@ -120,15 +139,15 @@ const styles = StyleSheet.create({
         fontSize: 35,
         color: 'white',
     },
-    loginBtn: {
+    signupBtn: {
         width: "80%",
         backgroundColor: "#031785",
         borderRadius: 25,
         height: 50,
-        width: 200,
         alignItems: "center",
         justifyContent: "center",
         marginTop: 40,
+        marginLeft: 35,
         marginBottom: 10
     },
     image: {

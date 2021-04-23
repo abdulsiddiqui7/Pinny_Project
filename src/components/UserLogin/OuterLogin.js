@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Image, Text, KeyboardAvoidingView, Alert, ImageBackground } from 'react-native';
+import { StyleSheet, View, KeyboardAvoidingView, Alert } from 'react-native';
 import * as firebase from 'firebase';
 import InnerLogin from './InnerLogin.js';
 
@@ -15,8 +15,6 @@ export default function OuterLogin(props) {
                     .get()
                     .then(userInfo => {
                         global.currUser = userInfo.data();
-                        console.log(global.currUser)
-                        console.log(userInfo.data())
                         props.navigation.navigate('HomeScreen'); 
                     })
                     .catch()
@@ -37,9 +35,9 @@ export default function OuterLogin(props) {
 
     return (
         <KeyboardAvoidingView behavior="height" style={styles.container}>
-                <View>
+                
                     <InnerLogin loginEvent={LoginHandle} signupEvent={signupHandle} forgotPasswordEvent={forgotHandle}></InnerLogin>
-                </View>
+                
         </KeyboardAvoidingView>
     );
 }

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { StyleSheet, View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, Alert, Picker } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
@@ -15,6 +15,7 @@ export default function Signup(props) {
         email: '',
         password: '',
         confirmPassword: '',
+        games: [],
         location: '',
         firstSportPref: '',
         secondSportPref: '',
@@ -33,6 +34,7 @@ export default function Signup(props) {
             Name: userCredentials.name,
             Username: userCredentials.username,
             Email: userCredentials.email,
+            Games: userCredentials.games,
             Location: userCredentials.location,
             FirstSportPreference: userCredentials.firstSportPref,
             SecondSportPreference: userCredentials.secondSportPref,
@@ -41,8 +43,8 @@ export default function Signup(props) {
             SecondSportSkillLevel: userCredentials.secondSportSkill,
             ThirdSportSkillLevel: userCredentials.thirdSportSkill
 
-        }).then((data) => alert("Success"))
-        .catch((error) => console.log("Error: " + error.message));
+        }).then((data) => alert("Account Createed Succesfully"))
+        .catch((error) => console.log("Error: ", "Could not create account"));
           
     }
     
@@ -57,6 +59,7 @@ export default function Signup(props) {
             }, (error) => { 
                 Alert.alert("Error", "Couldnt Sign In"); 
             });
+            props.navigation.navigate('LoginScreen'); 
     }
 
     function loginPressed() {
@@ -68,7 +71,7 @@ export default function Signup(props) {
     // }
 
     return(
-        <KeyboardAvoidingView behavior="height" style={styles.container}>
+        //<KeyboardAvoidingView behavior="height" style={styles.container}>
             <View style={styles.container}>
                 <View style={styles.inputView}>
                     <TextInput  
@@ -117,7 +120,10 @@ export default function Signup(props) {
                         onChangeText={(confirmPasswordInput) => setUserCreds({...userCreds, confirmPassword: confirmPasswordInput})}
                         ref={passwordElement}/>
                 </View>
-                
+                <Text></Text>
+                <Text></Text>
+                <Text></Text>
+                <Text></Text>
                 <View>
                     <TouchableOpacity style={styles.button} onPress={signUpPressed}
                     >
@@ -131,7 +137,7 @@ export default function Signup(props) {
                         </TouchableOpacity>
                 </View>  
             </View>
-        </KeyboardAvoidingView>
+       // </KeyboardAvoidingView>
     );
 }
 
